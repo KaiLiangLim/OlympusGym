@@ -1,0 +1,133 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="resources/css/style.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="utf-8">
+<title></title>
+</head>
+<body>
+	<nav>
+		<a href="getHome"><h1>Olympus Athletic Club</h1><img src="resources/img/logo.jpg" height="120"
+			width="250"></a>
+		<c:choose>
+			<c:when test="${not empty sessionScope.activeUser }">
+				<div class="nav-links" id="navLinks">
+					<i class="fa fa-times" onclick="hideMenu()"></i>
+					<ul>
+						<li><a href="getHome">Home</a></li>
+						<li><a href="getAboutUs">About Us</a></li>
+						<li><a href="getProfile">My Profile</a></li>
+						<li><a href="userUpdate">Update My Profile</a></li>
+						<li><a href="deleteUser">Delete Account</a></li>
+						<li><a href="getMembershipPlanPage">Membership Plans</a></li>
+						<li><a href="getPT">Personal Training</a></li>
+						<li><a href="getBooking">Make Booking</a>
+						<li><a href="getCheckBooking">Check Booking</a>
+						<li><a href="getLogout">Log out</a></li>
+					</ul>
+				</div>
+				<i class="fa fa-bars" onclick="showMenu()"></i>
+			</c:when>
+			<c:otherwise>
+				<div class="nav-links" id="navLinks">
+					<i class="fa fa-times" onclick="hideMenu()"></i>
+					<ul>
+						<li><a href="getHome">Home</a></li>
+						<li><a href="getAboutUs">About Us</a></li>
+						<li><a href="getMembershipPlanPage">Membership Plans</a></li>
+						<li><a href="getPT">Personal Training</a></li>
+						<li><a href="registerUser">Register</a></li>
+						<li><a href="userLogin">Login</a></li>
+					</ul>
+				</div>
+				<i class="fa fa-bars" onclick="showMenu()"></i>
+			</c:otherwise>
+		</c:choose>
+	</nav>
+	<div class="text-boxx">
+		<h2>Your Bookings</h2>
+
+		<c:choose>
+			<c:when test="${not empty errorMessage }">
+				<h3>${errorMessage }</h3>
+			</c:when>
+			<c:otherwise>
+				<h3>Previous Bookings</h3>
+
+				<c:choose>
+					<c:when test="${ not empty pastBookings }">
+
+						<table>
+							<tr>
+								<th>&nbsp;Booking Id&nbsp;</th>
+								<th>&nbsp;Trainer&nbsp;</th>
+								<th>&nbsp;&nbsp;Date&nbsp;&nbsp;</th>
+								<th>Program</th>
+								<th>&nbsp;&nbsp;Time&nbsp;&nbsp;</th>
+							</tr>
+							<c:forEach items="${ pastBookings }" var="booking">
+								<tr>
+									<td>${ booking.getBookingId() }</td>
+									<td>${ booking.personalTraining.trainer.trainerName }</td>
+									<td>&nbsp;&nbsp;&nbsp;${ booking.getDateTime().toLocalDate() }</td>
+									<td>&nbsp;&nbsp;&nbsp;${ booking.personalTraining.categoryName }</td>
+									<td>&nbsp;&nbsp;&nbsp;${ booking.getDateTime().toLocalTime() }</td>
+								</tr>
+							</c:forEach>
+						</table>
+
+
+					</c:when>
+					<c:otherwise>
+						<h4>You don't have any previous appointment!</h4>
+
+
+					</c:otherwise>
+				</c:choose>
+
+
+				<h3>Upcoming Bookings</h3>
+
+
+				<c:choose>
+					<c:when test="${not empty futureBookings }">
+
+						<table>
+							<tr>
+								<th>&nbsp;Booking Id&nbsp;</th>
+								<th>&nbsp;Trainer&nbsp;</th>
+								<th>&nbsp;&nbsp;Date&nbsp;&nbsp;</th>
+								<th>Program</th>
+								<th>&nbsp;&nbsp;Time&nbsp;&nbsp;</th>
+							</tr>
+							<c:forEach items="${ futureBookings }" var="booking">
+								<tr>
+									<td>${ booking.getBookingId() }</td>
+									<td>${ booking.personalTraining.trainer.trainerName }</td>
+									<td>&nbsp;&nbsp;&nbsp;${ booking.getDateTime().toLocalDate() }</td>
+									<td>&nbsp;&nbsp;&nbsp;${ booking.personalTraining.categoryName }</td>
+									<td>&nbsp;&nbsp;&nbsp;${ booking.getDateTime().toLocalTime() }</td>
+								</tr>
+							</c:forEach>
+						</table>
+
+
+					</c:when>
+					<c:otherwise>
+						<h4>You don't have any future booking!</h4>
+					</c:otherwise>
+				</c:choose>
+			</c:otherwise>
+		</c:choose>
+	</div>
+</body>
+</html>
